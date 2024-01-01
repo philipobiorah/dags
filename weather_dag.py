@@ -32,3 +32,13 @@ with DAG('weather_dag',
 
 
         )
+
+
+        extract_weather_data = SimpleHttpOperator(
+        task_id = 'extract_weather_data',
+        http_conn_id = 'weathermap_api',
+        endpoint='/data/2.5/weather?q=London&appid=e28fa6457642f032b61120f9864d7bf1',
+        method = 'GET',
+        response_filter= lambda r: json.loads(r.text),
+        log_response=True
+        )
